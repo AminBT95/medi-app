@@ -484,7 +484,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   }
 
   // Route pour servir l'application HTML directement
-  app.get("/legacy/app", async (req, res) => {
+  app.get(["/app", "/patient/app", "/legacy/app"], async (req, res) => {
     try {
       const fs = await import("fs");
       const path = await import("path");

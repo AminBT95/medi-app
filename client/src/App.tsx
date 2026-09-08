@@ -13,6 +13,7 @@ import AddSymptom from './pages/AddSymptom';
 import AddDoctor from './pages/AddDoctor';
 import Dashboard from './pages/Dashboard';
 import RoleSelector from './pages/roles/RoleSelector';
+import LegacyPatientHome from './pages/LegacyPatientHome';
 import DoctorPortal from './pages/roles/DoctorPortal';
 import PharmacyPortal from './pages/roles/PharmacyPortal';
 import NotFound from './pages/not-found';
@@ -23,7 +24,7 @@ function PatientRoutes() {
   return (
     <Layout>
       <Switch>
-        <Route path="/patient/app" component={Home} />
+        <Route path="/patient/app" component={LegacyPatientHome} />
         <Route path="/patient/add" component={AddMedication} />
         <Route path="/patient/calendar" component={Calendar} />
         <Route path="/patient/history" component={History} />
@@ -46,11 +47,11 @@ function Router() {
 
   return (
     <Switch>
-      <Route path="/" component={RoleSelector} />
+      <Route path="/" component={LegacyPatientHome} />
       <Route path="/roles" component={RoleSelector} />
 
-      {/* Backward-compatible patient links */}
-      <Route path="/app">{() => <Redirect to="/patient/app" />}</Route>
+      {/* /app is the original Replit patient application requested as the mobile home */}
+      <Route path="/app" component={LegacyPatientHome} />
       <Route path="/add">{() => <Redirect to="/patient/add" />}</Route>
       <Route path="/calendar">{() => <Redirect to="/patient/calendar" />}</Route>
       <Route path="/history">{() => <Redirect to="/patient/history" />}</Route>
