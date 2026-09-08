@@ -13,6 +13,7 @@ import AddSymptom from './pages/AddSymptom';
 import AddDoctor from './pages/AddDoctor';
 import Dashboard from './pages/Dashboard';
 import LegacyPatientHome from './pages/LegacyPatientHome';
+import LegacyProDashboard from './pages/LegacyProDashboard';
 import DoctorPortal from './pages/roles/DoctorPortal';
 import PharmacyPortal from './pages/roles/PharmacyPortal';
 import NotFound from './pages/not-found';
@@ -43,11 +44,12 @@ function Router() {
   if (path === '/doctor' || path.startsWith('/doctor/')) return <DoctorPortal />;
   if (path === '/pharmacy' || path.startsWith('/pharmacy/')) return <PharmacyPortal />;
   if (path === '/dashboard' || path.startsWith('/dashboard/')) return <Dashboard />;
+  if (path === '/pro' || path.startsWith('/pro/')) return <LegacyProDashboard />;
 
   return (
     <Switch>
       <Route path="/" component={LegacyPatientHome} />
-      <Route path="/roles">{() => { window.location.href = '/pro'; return null; }}</Route>
+      <Route path="/roles">{() => <Redirect to="/pro" />}</Route>
 
       {/* /app is the original Replit patient application requested as the mobile home */}
       <Route path="/app" component={LegacyPatientHome} />
