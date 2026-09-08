@@ -1,71 +1,38 @@
 import { useLocation } from 'wouter';
-import { Home, Plus, History, Calendar, Heart, UserCheck } from 'lucide-react';
+import { CalendarDays, Home, Plus, TrendingUp, HeartPulse } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Button } from '@/components/ui/button';
 
 const navigationItems = [
-  {
-    id: 'home',
-    path: '/',
-    icon: Home,
-    labelKey: 'nav.home' as const,
-  },
-  {
-    id: 'add',
-    path: '/add',
-    icon: Plus,
-    labelKey: 'nav.add' as const,
-  },
-  {
-    id: 'calendar',
-    path: '/calendar',
-    icon: Calendar,
-    labelKey: 'nav.calendar' as const,
-  },
-  {
-    id: 'reports',
-    path: '/reports',
-    icon: History,
-    labelKey: 'nav.reports' as const,
-  },
-  {
-    id: 'symptoms',
-    path: '/add-symptom',
-    icon: Heart,
-    labelKey: 'nav.symptoms' as const,
-  },
+  { id: 'home', path: '/app', icon: Home, labelFr: 'Accueil', labelEn: 'Home' },
+  { id: 'calendar', path: '/calendar', icon: CalendarDays, labelFr: 'Agenda', labelEn: 'Calendar' },
+  { id: 'add', path: '/add', icon: Plus, labelFr: 'Ajouter', labelEn: 'Add', primary: true },
+  { id: 'symptoms', path: '/add-symptom', icon: HeartPulse, labelFr: 'Santé', labelEn: 'Health' },
+  { id: 'reports', path: '/reports', icon: TrendingUp, labelFr: 'Suivi', labelEn: 'Reports' },
 ];
 
 export default function BottomNavigation() {
   const [location, setLocation] = useLocation();
-  const { t } = useLanguage();
+  const { language } = useLanguage();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-600 px-2 py-2 z-30">
-      <div className="flex justify-around">
+    <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-md -translate-x-1/2 border-t border-slate-100 bg-white/95 px-3 pb-[max(0.55rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-12px_35px_rgba(15,23,42,0.07)] backdrop-blur-xl">
+      <div className="flex items-end justify-around">
         {navigationItems.map((item) => {
-          const IconComponent = item.icon;
-          const isActive = location === item.path;
-          
+          const Icon = item.icon;
+          const isActive = location === item.path || (item.path === '/app' && location === '/');
+          if (item.primary) {
+            return (
+              <button key={item.id} onClick={() => setLocation(item.path)} className="-mt-7 flex w-16 flex-col items-center gap-1" aria-label={language === 'fr' ? item.labelFr : item.labelEn}>
+                <span className="flex h-14 w-14 items-center justify-center rounded-[20px] border-4 border-white bg-emerald-600 text-white shadow-xl shadow-emerald-200 transition active:scale-95"><Icon className="h-6 w-6" /></span>
+                <span className="text-[10px] font-extrabold text-slate-500">{language === 'fr' ? item.labelFr : item.labelEn}</span>
+              </button>
+            );
+          }
           return (
-            <Button
-              key={item.id}
-              variant="ghost"
-              onClick={() => setLocation(item.path)}
-              className={`
-                flex flex-col items-center p-2 h-auto space-y-1 transition-colors flex-1
-                ${isActive 
-                  ? 'text-primary-600 bg-primary-50 dark:bg-primary-900/30 dark:text-primary-400' 
-                  : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
-                }
-              `}
-              aria-label={t(item.labelKey)}
-            >
-              <IconComponent className="icon-senior" />
-              <span className="text-xs font-medium">
-                {t(item.labelKey)}
-              </span>
-            </Button>
+            <button key={item.id} onClick={() => setLocation(item.path)} className={`flex min-w-[54px] flex-col items-center gap-1 rounded-xl px-2 py-1.5 transition ${isActive ? 'text-emerald-700' : 'text-slate-400'}`} aria-label={language === 'fr' ? item.labelFr : item.labelEn}>
+              <span className={`flex h-8 w-10 items-center justify-center rounded-xl ${isActive ? 'bg-emerald-50' : ''}`}><Icon className="h-5 w-5" /></span>
+              <span className="text-[10px] font-extrabold">{language === 'fr' ? item.labelFr : item.labelEn}</span>
+            </button>
           );
         })}
       </div>

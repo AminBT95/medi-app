@@ -1,5 +1,5 @@
 import { QueryClientProvider } from '@tanstack/react-query';
-import { Route, Switch } from 'wouter';
+import { Redirect, Route, Switch } from 'wouter';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { queryClient } from './lib/queryClient';
 import Layout from './components/Layout';
@@ -19,7 +19,7 @@ function MobileRoutes() {
   return (
     <Layout>
       <Switch>
-        <Route path="/" component={Home} />
+        <Route path="/">{() => <Redirect to="/app" />}</Route>
         <Route path="/app" component={Home} />
         <Route path="/add" component={AddMedication} />
         <Route path="/calendar" component={Calendar} />

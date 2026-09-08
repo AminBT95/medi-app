@@ -106,7 +106,7 @@ export default function AddMedication() {
       await scheduleMedicationNotifications({ ...medication, times: variables.times });
       queryClient.invalidateQueries({ queryKey: ['/api/reminders/today'] });
       queryClient.invalidateQueries({ queryKey: ['/api/medications'] });
-      setLocation('/');
+      setLocation('/app');
     },
     onError: () => {
       toast({
@@ -366,7 +366,7 @@ export default function AddMedication() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setLocation('/')}
+                  onClick={() => setLocation('/app')}
                   className="flex-1 text-senior-lg font-medium h-auto py-4 px-6"
                 >
                   {t('actions.cancel')}
