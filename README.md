@@ -59,3 +59,7 @@ Voir `.env.example`. `VITE_API_URL` est indispensable pour un APK connecté à u
 - Restreindre `CORS_ORIGINS` aux domaines autorisés.
 - Garder `DATABASE_URL`, secrets JWT et clés de signature hors du dépôt Git.
 - Ajouter une authentification patient complète avant de stocker de vraies données médicales multi-utilisateurs.
+
+## Espaces multi-rôles (V2.1)
+
+L'application est maintenant séparée en quatre expériences : Patient (`/patient/app`), Médecin (`/doctor`), Pharmacie (`/pharmacy`) et Administration (`/dashboard`). L'écran `/roles` permet de changer d'espace et mémorise le choix sur l'appareil. Voir `ROLE-ARCHITECTURE.md` pour la stratégie d'authentification/permissions à mettre en production.

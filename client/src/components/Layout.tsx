@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { Bell, Languages, Pill, Settings } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import BottomNavigation from './BottomNavigation';
@@ -8,6 +9,7 @@ interface LayoutProps { children: React.ReactNode; }
 
 export default function Layout({ children }: LayoutProps) {
   const { language, toggleLanguage, t } = useLanguage();
+  const [, setLocation] = useLocation();
   const [showNotificationModal, setShowNotificationModal] = useState(false);
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export default function Layout({ children }: LayoutProps) {
               </div>
               <div className="min-w-0">
                 <h1 className="truncate text-[17px] font-black tracking-[-0.02em] text-slate-900">{t('app.title')}</h1>
-                <p className="text-[11px] font-semibold text-slate-400">{language === 'fr' ? 'Assistant santé personnel' : 'Personal health assistant'}</p>
+                <p className="text-[11px] font-semibold text-slate-400">{language === 'fr' ? 'Espace patient · Assistant santé' : 'Patient space · Health assistant'}</p>
               </div>
             </div>
             <div className="flex items-center gap-1">
@@ -39,7 +41,7 @@ export default function Layout({ children }: LayoutProps) {
                 <Bell className="h-5 w-5" />
                 <span className="absolute right-2 top-2 h-2 w-2 rounded-full border-2 border-white bg-emerald-500" />
               </button>
-              <button onClick={() => setShowNotificationModal(true)} className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100" aria-label="Settings">
+              <button onClick={() => setLocation('/roles')} className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100" aria-label="Changer d’espace">
                 <Settings className="h-5 w-5" />
               </button>
             </div>

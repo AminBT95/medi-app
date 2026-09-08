@@ -123,7 +123,7 @@ export default function Home() {
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-600">{language === 'fr' ? 'Prochaine étape' : 'Up next'}</p>
             <h3 className="mt-1 text-xl font-extrabold tracking-tight text-slate-900">{language === 'fr' ? 'Prochaine prise' : 'Next dose'}</h3>
           </div>
-          <button onClick={() => setLocation('/calendar')} className="flex items-center gap-1 text-xs font-bold text-slate-500">
+          <button onClick={() => setLocation('/patient/calendar')} className="flex items-center gap-1 text-xs font-bold text-slate-500">
             {language === 'fr' ? 'Calendrier' : 'Calendar'} <ChevronRight className="h-4 w-4" />
           </button>
         </div>
@@ -158,10 +158,10 @@ export default function Home() {
           <h3 className="text-xl font-extrabold tracking-tight text-slate-900">{language === 'fr' ? 'Actions rapides' : 'Quick actions'}</h3>
         </div>
         <div className="grid grid-cols-4 gap-2">
-          <QuickAction label={language === 'fr' ? 'Traitement' : 'Medicine'} icon={Plus} onClick={() => setLocation('/add')} />
-          <QuickAction label={language === 'fr' ? 'Symptôme' : 'Symptom'} icon={HeartPulse} onClick={() => setLocation('/add-symptom')} />
-          <QuickAction label={language === 'fr' ? 'Médecin' : 'Doctor'} icon={Stethoscope} onClick={() => setLocation('/add-doctor')} />
-          <QuickAction label={language === 'fr' ? 'Rapports' : 'Reports'} icon={TrendingUp} onClick={() => setLocation('/reports')} />
+          <QuickAction label={language === 'fr' ? 'Traitement' : 'Medicine'} icon={Plus} onClick={() => setLocation('/patient/add')} />
+          <QuickAction label={language === 'fr' ? 'Symptôme' : 'Symptom'} icon={HeartPulse} onClick={() => setLocation('/patient/add-symptom')} />
+          <QuickAction label={language === 'fr' ? 'Médecin' : 'Doctor'} icon={Stethoscope} onClick={() => setLocation('/patient/add-doctor')} />
+          <QuickAction label={language === 'fr' ? 'Rapports' : 'Reports'} icon={TrendingUp} onClick={() => setLocation('/patient/reports')} />
         </div>
       </section>
 
@@ -171,7 +171,7 @@ export default function Home() {
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">{language === 'fr' ? 'Aujourd’hui' : 'Today'}</p>
             <h3 className="mt-1 text-xl font-extrabold tracking-tight text-slate-900">{t('home.todays_meds')}</h3>
           </div>
-          <button onClick={() => setLocation('/history')} className="flex items-center gap-1 text-xs font-bold text-emerald-700">
+          <button onClick={() => setLocation('/patient/history')} className="flex items-center gap-1 text-xs font-bold text-emerald-700">
             {language === 'fr' ? 'Historique' : 'History'} <ChevronRight className="h-4 w-4" />
           </button>
         </div>
@@ -181,7 +181,7 @@ export default function Home() {
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-500"><CalendarDays className="h-6 w-6" /></div>
             <h4 className="mt-4 font-extrabold text-slate-900">{t('home.no_medications')}</h4>
             <p className="mx-auto mt-1 max-w-[260px] text-sm leading-5 text-slate-500">{t('home.no_medications_desc')}</p>
-            <button onClick={() => setLocation('/add')} className="mt-4 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-emerald-100">
+            <button onClick={() => setLocation('/patient/add')} className="mt-4 rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-extrabold text-white shadow-lg shadow-emerald-100">
               {language === 'fr' ? 'Ajouter un traitement' : 'Add medication'}
             </button>
           </div>

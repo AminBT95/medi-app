@@ -58,12 +58,12 @@ app.use((req, res, next) => {
 });
 
 // Add route for pharmacy ERP interface
-app.get("/pharmacy", (req, res) => {
+app.get("/legacy/pharmacy", (req, res) => {
   res.sendFile(path.join(process.cwd(), "client", "pharmacy-erp.html"));
 });
 
 // Add route for doctor quick interface
-app.get("/doctor", (req, res) => {
+app.get("/legacy/doctor", (req, res) => {
   res.sendFile(path.join(process.cwd(), "client", "doctor-quick.html"));
 });
 

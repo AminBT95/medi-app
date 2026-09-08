@@ -1,6 +1,7 @@
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Redirect, Route, Switch } from 'wouter';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { RoleProvider } from './contexts/RoleContext';
 import { queryClient } from './lib/queryClient';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -11,35 +12,64 @@ import Reports from './pages/Reports';
 import AddSymptom from './pages/AddSymptom';
 import AddDoctor from './pages/AddDoctor';
 import Dashboard from './pages/Dashboard';
+import RoleSelector from './pages/roles/RoleSelector';
+import DoctorPortal from './pages/roles/DoctorPortal';
+import PharmacyPortal from './pages/roles/PharmacyPortal';
 import NotFound from './pages/not-found';
 import { Toaster } from './components/ui/toaster';
 import './index.css';
 
-function MobileRoutes() {
+function PatientRoutes() {
   return (
     <Layout>
       <Switch>
-        <Route path="/">{() => <Redirect to="/app" />}</Route>
-        <Route path="/app" component={Home} />
-        <Route path="/add" component={AddMedication} />
-        <Route path="/calendar" component={Calendar} />
-        <Route path="/history" component={History} />
-        <Route path="/reports" component={Reports} />
-        <Route path="/add-symptom" component={AddSymptom} />
-        <Route path="/add-doctor" component={AddDoctor} />
+        <Route path="/patient/app" component={Home} />
+        <Route path="/patient/add" component={AddMedication} />
+        <Route path="/patient/calendar" component={Calendar} />
+        <Route path="/patient/history" component={History} />
+        <Route path="/patient/reports" component={Reports} />
+        <Route path="/patient/add-symptom" component={AddSymptom} />
+        <Route path="/patient/add-doctor" component={AddDoctor} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
   );
 }
 
+function Router() {
+  const path = window.location.pathname;
+
+  if (path.startsWith('/patient/')) return <PatientRoutes />;
+  if (path === '/doctor' || path.startsWith('/doctor/')) return <DoctorPortal />;
+  if (path === '/pharmacy' || path.startsWith('/pharmacy/')) return <PharmacyPortal />;
+  if (path === '/dashboard' || path.startsWith('/dashboard/')) return <Dashboard />;
+
+  return (
+    <Switch>
+      <Route path="/" component={RoleSelector} />
+      <Route path="/roles" component={RoleSelector} />
+
+      {/* Backward-compatible patient links */}
+      <Route path="/app">{() => <Redirect to="/patient/app" />}</Route>
+      <Route path="/add">{() => <Redirect to="/patient/add" />}</Route>
+      <Route path="/calendar">{() => <Redirect to="/patient/calendar" />}</Route>
+      <Route path="/history">{() => <Redirect to="/patient/history" />}</Route>
+      <Route path="/reports">{() => <Redirect to="/patient/reports" />}</Route>
+      <Route path="/add-symptom">{() => <Redirect to="/patient/add-symptom" />}</Route>
+      <Route path="/add-doctor">{() => <Redirect to="/patient/add-doctor" />}</Route>
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
+
 export default function App() {
-  const isDashboard = window.location.pathname.startsWith('/dashboard');
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
-        {isDashboard ? <Dashboard /> : <MobileRoutes />}
-        <Toaster />
+        <RoleProvider>
+          <Router />
+          <Toaster />
+        </RoleProvider>
       </LanguageProvider>
     </QueryClientProvider>
   );

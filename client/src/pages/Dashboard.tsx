@@ -52,7 +52,7 @@ export default function Dashboard() {
             <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl">Medi‑Rappel Control Center</h1>
             <p className="mt-2 max-w-2xl text-sm text-slate-400">Supervision des traitements, de l’observance, des symptômes et des opérations pharmacie.</p>
           </div>
-          <a href="/app" className="rounded-xl bg-emerald-500 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-950/30 transition hover:bg-emerald-400">Ouvrir l’app patient</a>
+          <a href="/patient/app" className="rounded-xl bg-emerald-500 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-950/30 transition hover:bg-emerald-400">Ouvrir l’app patient</a>
         </header>
 
         <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -114,7 +114,7 @@ export default function Dashboard() {
                 <div className="mt-4 grid gap-2">
                   <a className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm hover:bg-white/10" href="/erp">ERP médical complet</a>
                   <a className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm hover:bg-white/10" href="/pharmacy">Gestion pharmacie</a>
-                  <a className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm hover:bg-white/10" href="/reports">Rapports patient</a>
+                  <a className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm hover:bg-white/10" href="/patient/reports">Rapports patient</a>
                 </div>
               </CardContent>
             </Card>

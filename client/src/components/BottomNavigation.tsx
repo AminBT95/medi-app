@@ -3,11 +3,11 @@ import { CalendarDays, Home, Plus, TrendingUp, HeartPulse } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const navigationItems = [
-  { id: 'home', path: '/app', icon: Home, labelFr: 'Accueil', labelEn: 'Home' },
-  { id: 'calendar', path: '/calendar', icon: CalendarDays, labelFr: 'Agenda', labelEn: 'Calendar' },
-  { id: 'add', path: '/add', icon: Plus, labelFr: 'Ajouter', labelEn: 'Add', primary: true },
-  { id: 'symptoms', path: '/add-symptom', icon: HeartPulse, labelFr: 'Santé', labelEn: 'Health' },
-  { id: 'reports', path: '/reports', icon: TrendingUp, labelFr: 'Suivi', labelEn: 'Reports' },
+  { id: 'home', path: '/patient/app', icon: Home, labelFr: 'Accueil', labelEn: 'Home' },
+  { id: 'calendar', path: '/patient/calendar', icon: CalendarDays, labelFr: 'Agenda', labelEn: 'Calendar' },
+  { id: 'add', path: '/patient/add', icon: Plus, labelFr: 'Ajouter', labelEn: 'Add', primary: true },
+  { id: 'symptoms', path: '/patient/add-symptom', icon: HeartPulse, labelFr: 'Santé', labelEn: 'Health' },
+  { id: 'reports', path: '/patient/reports', icon: TrendingUp, labelFr: 'Suivi', labelEn: 'Reports' },
 ];
 
 export default function BottomNavigation() {
@@ -19,7 +19,7 @@ export default function BottomNavigation() {
       <div className="flex items-end justify-around">
         {navigationItems.map((item) => {
           const Icon = item.icon;
-          const isActive = location === item.path || (item.path === '/app' && location === '/');
+          const isActive = location === item.path || (item.path === '/patient/app' && (location === '/app' || location === '/'));
           if (item.primary) {
             return (
               <button key={item.id} onClick={() => setLocation(item.path)} className="-mt-7 flex w-16 flex-col items-center gap-1" aria-label={language === 'fr' ? item.labelFr : item.labelEn}>
