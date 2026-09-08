@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediRappel - Interface Médecin Rapide</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --surface-2: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--surface-2);
+            color: var(--text-primary);
+        }
+
+        .patient-card {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .patient-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .alert {
+            padding: 16px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+        }
+
+        .treatment-form {
+            background: var(--surface-2);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .medication-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .medication-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        #loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="material-icons" style="font-size: 40px; vertical-align: middle;">medical_services</i> Interface Médecin</h1>
+            <p>Recherchez un patient et créez rapidement ses traitements</p>
+        </div>
+
+        <div class="alert alert-success" id="success-alert"></div>
+        <div class="alert alert-error" id="error-alert"></div>
+
+        <!-- Liste des patients du cabinet -->
+        <div id="imported-patients" class="card" style="display: none;">
+            <h2 style="color: var(--primary); margin-bottom: 20px;">
+                <i class="material-icons" style="vertical-align: middle;">people</i>
+                Patients du Cabinet (<span id="patient-count">0</span>)
+            </h2>
+            <div id="patients-list"></div>
+            <button onclick="showAllPatients()" class="btn btn-secondary" style="margin-top: 16px;">
+                <i class="material-icons">refresh</i>
+                Actualiser la liste
+            </button>
+        </div>
+
+        <!-- Recherche patient -->
+        <div class="card">
+            <h2 style="color: var(--primary); margin-bottom: 20px;">1. Rechercher un patient</h2>
+            
+            <div class="form-group">
+                <label class="form-label">Numéro de carte d'identité du patient :</label>
+                <input type="text" id="patient-cni" class="form-input" placeholder="Ex: 123456789" maxlength="12">
+            </div>
+            
+            <button onclick="searchPatient()" class="btn btn-primary">
+                <i class="material-icons">search</i>
+                Rechercher patient
+            </button>
+            
+            <div id="loading">
+                <p style="color: var(--text-secondary);">Recherche en cours...</p>
+            </div>
+        </div>
+
+        <!-- Résultat patient -->
+        <div id="patient-result" class="card hidden">
+            <h2 style="color: var(--success); margin-bottom: 20px;">Patient trouvé ✓</h2>
+            <div id="patient-details"></div>
+            
+            <div style="display: flex; gap: 12px; margin-top: 16px;">
+                <button onclick="showTreatmentForm()" class="btn btn-success">
+                    <i class="material-icons">medication</i>
+                    Créer un traitement
+                </button>
+                <button onclick="importPatientToDoctor()" class="btn btn-primary">
+                    <i class="material-icons">download</i>
+                    Importer dans cabinet
+                </button>
+            </div>
+        </div>
+
+        <!-- Formulaire traitement -->
+        <div id="treatment-form" class="treatment-form">
+            <h3 style="color: var(--primary); margin-bottom: 20px;">Nouveau traitement</h3>
+            
+            <div class="form-group">
+                <label class="form-label">Nom du traitement :</label>
+                <input type="text" id="treatment-name" class="form-input" placeholder="Ex: Traitement hypertension">
+            </div>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label class="form-label">Docteur prescripteur :</label>
+                    <input type="text" id="doctor-name" class="form-input" placeholder="Dr. Nom Prénom">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date début :</label>
+                    <input type="date" id="start-date" class="form-input">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Instructions générales :</label>
+                <textarea id="general-instructions" class="form-input" rows="3" placeholder="Instructions pour le patient..."></textarea>
+            </div>
+
+            <h4 style="margin: 24px 0 16px; color: var(--text-primary);">Médicaments</h4>
+            <div id="medications-list">
+                <!-- Medications will be added here -->
+            </div>
+            
+            <button onclick="addMedication()" class="btn btn-secondary btn-small">
+                <i class="material-icons">add</i>
+                Ajouter un médicament
+            </button>
+            
+            <div style="margin-top: 32px; display: flex; gap: 12px;">
+                <button onclick="saveTreatment()" class="btn btn-success">
+                    <i class="material-icons">save</i>
+                    Enregistrer le traitement
+                </button>
+                <button onclick="resetForm()" class="btn btn-secondary">
+                    <i class="material-icons">refresh</i>
+                    Nouveau patient
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPatient = null;
+        let medicationCount = 0;
+        let importedPatients = JSON.parse(localStorage.getItem('doctorPatients') || '[]');
+
+        // Set today's date as default
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('start-date').value = today;
+            displayImportedPatients();
+        });
+
+        async function searchPatient() {
+            const cni = document.getElementById('patient-cni').value.trim();
+            
+            if (!cni) {
+                showError('Veuillez saisir un numéro de carte d\'identité');
+                return;
+            }
+
+            showLoading(true);
+            hideAlerts();
+
+            try {
+                const response = await fetch(`/api/patients/search/${encodeURIComponent(cni)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    cache: 'no-cache'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                showLoading(false);
+                
+                console.log('Search result:', result); // Debug log
+                
+                if (result.found && result.patient) {
+                    currentPatient = result.patient;
+                    displayPatient(result.patient);
+                    showSuccess(`Patient ${result.patient.firstName} ${result.patient.lastName} trouvé`);
+                } else {
+                    showError(`Patient avec CNI "${cni}" non trouvé dans la base de données.`);
+                    document.getElementById('patient-result').classList.add('hidden');
+                    document.getElementById('treatment-form').style.display = 'none';
+                }
+                
+            } catch (error) {
+                showLoading(false);
+                console.error('Error searching patient:', error);
+                showError(`Erreur lors de la recherche: ${error.message}`);
+                document.getElementById('patient-result').classList.add('hidden');
+                document.getElementById('treatment-form').style.display = 'none';
+            }
+        }
+
+        function displayPatient(patient) {
+            const birthDate = patient.dateOfBirth ? new Date(patient.dateOfBirth).toLocaleDateString('fr-FR') : 'Non renseigné';
+            
+            document.getElementById('patient-details').innerHTML = `
+                <div class="patient-card">
+                    <div class="patient-info">
+                        <div>
+                            <strong style="font-size: 18px; color: var(--primary);">${patient.firstName} ${patient.lastName}</strong>
+                            <div style="color: var(--text-secondary);">CNI: ${patient.nationalId}</div>
+                        </div>
+                        <div>
+                            <div style="color: var(--text-secondary);">Né(e) le ${birthDate}</div>
+                            <div style="color: var(--text-secondary);">${patient.phone || 'Tél. non renseigné'}</div>
+                        </div>
+                    </div>
+                    <div style="color: var(--text-secondary);">
+                        <strong>Email:</strong> ${patient.email || 'Non renseigné'}<br>
+                        <strong>Adresse:</strong> ${patient.address || 'Non renseignée'}
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('patient-result').classList.remove('hidden');
+        }
+
+        function showTreatmentForm() {
+            document.getElementById('treatment-form').style.display = 'block';
+            addMedication(); // Add first medication automatically
+        }
+
+        function addMedication() {
+            medicationCount++;
+            const medicationsDiv = document.getElementById('medications-list');
+            
+            const medicationHtml = `
+                <div class="medication-item" id="medication-${medicationCount}">
+                    <div class="medication-header">
+                        <h5 style="color: var(--primary);">Médicament ${medicationCount}</h5>
+                        <button onclick="removeMedication(${medicationCount})" class="btn btn-secondary btn-small">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Nom du médicament :</label>
+                            <input type="text" class="form-input medication-name" placeholder="Ex: Paracétamol 1000mg">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Dosage :</label>
+                            <input type="text" class="form-input medication-dosage" placeholder="Ex: 1000mg">
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Fréquence :</label>
+                            <select class="form-input medication-frequency">
+                                <option value="1">1 fois par jour</option>
+                                <option value="2">2 fois par jour</option>
+                                <option value="3">3 fois par jour</option>
+                                <option value="4">4 fois par jour</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Durée (jours) :</label>
+                            <input type="number" class="form-input medication-duration" placeholder="Ex: 7" min="1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Instructions :</label>
+                        <input type="text" class="form-input medication-instructions" placeholder="À prendre pendant les repas">
+                    </div>
+                </div>
+            `;
+            
+            medicationsDiv.insertAdjacentHTML('beforeend', medicationHtml);
+        }
+
+        function removeMedication(id) {
+            const medicationElement = document.getElementById(`medication-${id}`);
+            if (medicationElement) {
+                medicationElement.remove();
+            }
+        }
+
+        async function saveTreatment() {
+            if (!currentPatient) {
+                showError('Aucun patient sélectionné');
+                return;
+            }
+
+            const treatmentName = document.getElementById('treatment-name').value.trim();
+            const doctorName = document.getElementById('doctor-name').value.trim();
+            const startDate = document.getElementById('start-date').value;
+            const generalInstructions = document.getElementById('general-instructions').value.trim();
+
+            if (!treatmentName || !doctorName) {
+                showError('Veuillez remplir le nom du traitement et le docteur');
+                return;
+            }
+
+            // Collect medications
+            const medications = [];
+            const medicationItems = document.querySelectorAll('.medication-item');
+            
+            medicationItems.forEach(item => {
+                const name = item.querySelector('.medication-name').value.trim();
+                const dosage = item.querySelector('.medication-dosage').value.trim();
+                const frequency = item.querySelector('.medication-frequency').value;
+                const duration = item.querySelector('.medication-duration').value;
+                const instructions = item.querySelector('.medication-instructions').value.trim();
+                
+                if (name && dosage) {
+                    medications.push({
+                        name,
+                        dosage,
+                        frequency: parseInt(frequency),
+                        duration: parseInt(duration) || 7,
+                        instructions: instructions || 'Prendre selon prescription'
+                    });
+                }
+            });
+
+            if (medications.length === 0) {
+                showError('Veuillez ajouter au moins un médicament');
+                return;
+            }
+
+            try {
+                // Create doctor if needed
+                const doctorResponse = await fetch('/api/doctors', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: doctorName,
+                        speciality: 'Médecin généraliste',
+                        phone: '+33 1 00 00 00 00',
+                        email: `${doctorName.toLowerCase().replace(/\s+/g, '.')}@cabinet-medical.fr`
+                    })
+                });
+
+                // Create medications
+                for (const med of medications) {
+                    await fetch('/api/medications', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name: med.name,
+                            dosage: med.dosage,
+                            frequency: med.frequency,
+                            duration: med.duration,
+                            instructions: med.instructions,
+                            startDate: startDate,
+                            patientName: `${currentPatient.firstName} ${currentPatient.lastName}`,
+                            doctorName: doctorName
+                        })
+                    });
+                }
+
+                showSuccess(`Traitement "${treatmentName}" créé avec succès pour ${currentPatient.firstName} ${currentPatient.lastName}!`);
+                
+                // Show completion message
+                setTimeout(() => {
+                    if (confirm('Traitement sauvegardé! Le patient peut maintenant accéder à ses médicaments sur son téléphone.\n\nVoulez-vous créer un nouveau traitement?')) {
+                        resetForm();
+                    }
+                }, 1000);
+
+            } catch (error) {
+                console.error('Error saving treatment:', error);
+                showError('Erreur lors de la sauvegarde du traitement');
+            }
+        }
+
+        async function importPatientToDoctor() {
+            if (!currentPatient) {
+                showError('Aucun patient sélectionné');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/doctor/patients/import', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ nationalId: currentPatient.nationalId })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Add patient to imported list if not already present
+                    const existingIndex = importedPatients.findIndex(p => p.nationalId === currentPatient.nationalId);
+                    if (existingIndex === -1) {
+                        const patientData = {
+                            id: currentPatient.id,
+                            firstName: currentPatient.firstName,
+                            lastName: currentPatient.lastName,
+                            nationalId: currentPatient.nationalId,
+                            phone: currentPatient.phone,
+                            email: currentPatient.email,
+                            dateOfBirth: currentPatient.dateOfBirth,
+                            importedAt: new Date().toISOString()
+                        };
+                        importedPatients.unshift(patientData);
+                        localStorage.setItem('doctorPatients', JSON.stringify(importedPatients));
+                        displayImportedPatients();
+                    }
+                    
+                    showSuccess(`Patient ${currentPatient.firstName} ${currentPatient.lastName} importé dans le cabinet médical`);
+                } else {
+                    showError(result.message || 'Erreur lors de l\'importation');
+                }
+                
+            } catch (error) {
+                console.error('Error importing patient to doctor:', error);
+                showError('Erreur lors de l\'importation du patient');
+            }
+        }
+
+        function displayImportedPatients() {
+            const patientsContainer = document.getElementById('patients-list');
+            const patientCount = document.getElementById('patient-count');
+            const importedSection = document.getElementById('imported-patients');
+            
+            if (importedPatients.length === 0) {
+                importedSection.style.display = 'none';
+                return;
+            }
+
+            importedSection.style.display = 'block';
+            patientCount.textContent = importedPatients.length;
+            
+            patientsContainer.innerHTML = importedPatients.map(patient => {
+                const birthDate = patient.dateOfBirth ? 
+                    new Date(patient.dateOfBirth).toLocaleDateString('fr-FR') : 'Non renseigné';
+                const importDate = new Date(patient.importedAt).toLocaleDateString('fr-FR');
+                
+                return `
+                    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 8px;">
+                            <div>
+                                <strong style="color: var(--primary); font-size: 16px;">${patient.firstName} ${patient.lastName}</strong>
+                                <div style="color: var(--text-secondary); font-size: 12px;">CNI: ${patient.nationalId}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="color: var(--text-secondary); font-size: 12px;">Importé le ${importDate}</div>
+                            </div>
+                        </div>
+                        <div style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">
+                            <div>Né(e) le ${birthDate}</div>
+                            <div>${patient.phone || 'Tél. non renseigné'}</div>
+                            <div>${patient.email || 'Email non renseigné'}</div>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button onclick="openPatientRecord('${patient.nationalId}')" class="btn btn-primary" style="font-size: 12px; padding: 6px 12px;">
+                                <i class="material-icons" style="font-size: 16px;">folder_open</i>
+                                Dossier
+                            </button>
+                            <button onclick="createTreatmentForPatient('${patient.nationalId}')" class="btn btn-success" style="font-size: 12px; padding: 6px 12px;">
+                                <i class="material-icons" style="font-size: 16px;">medication</i>
+                                Traitement
+                            </button>
+                            <button onclick="removePatientFromList('${patient.nationalId}')" class="btn btn-secondary" style="font-size: 12px; padding: 6px 12px;">
+                                <i class="material-icons" style="font-size: 16px;">delete</i>
+                                Retirer
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function selectPatientFromList(nationalId) {
+            const patient = importedPatients.find(p => p.nationalId === nationalId);
+            if (patient) {
+                currentPatient = patient;
+                document.getElementById('patient-cni').value = nationalId;
+                displayPatient(patient);
+                showSuccess(`Patient ${patient.firstName} ${patient.lastName} sélectionné`);
+            }
+        }
+
+        function createTreatmentForPatient(nationalId) {
+            selectPatientFromList(nationalId);
+            setTimeout(() => {
+                showTreatmentForm();
+            }, 500);
+        }
+
+        function removePatientFromList(nationalId) {
+            if (confirm('Êtes-vous sûr de vouloir retirer ce patient de votre liste?')) {
+                importedPatients = importedPatients.filter(p => p.nationalId !== nationalId);
+                localStorage.setItem('doctorPatients', JSON.stringify(importedPatients));
+                displayImportedPatients();
+                showSuccess('Patient retiré de la liste du cabinet');
+            }
+        }
+
+        function showAllPatients() {
+            displayImportedPatients();
+            showSuccess('Liste actualisée');
+        }
+
+        function openPatientRecord(nationalId) {
+            // Store patient CNI for ERP Pro and redirect
+            localStorage.setItem('selectedPatientCNI', nationalId);
+            window.open('/erp?patient=' + encodeURIComponent(nationalId), '_blank');
+        }
+
+        function resetForm() {
+            currentPatient = null;
+            document.getElementById('patient-cni').value = '';
+            document.getElementById('treatment-name').value = '';
+            document.getElementById('doctor-name').value = '';
+            document.getElementById('general-instructions').value = '';
+            document.getElementById('medications-list').innerHTML = '';
+            document.getElementById('patient-result').classList.add('hidden');
+            document.getElementById('treatment-form').style.display = 'none';
+            medicationCount = 0;
+            hideAlerts();
+            
+            // Reset to today's date
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('start-date').value = today;
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        function showSuccess(message) {
+            const alert = document.getElementById('success-alert');
+            alert.textContent = message;
+            alert.style.display = 'block';
+            setTimeout(() => alert.style.display = 'none', 5000);
+        }
+
+        function showError(message) {
+            const alert = document.getElementById('error-alert');
+            alert.textContent = message;
+            alert.style.display = 'block';
+            setTimeout(() => alert.style.display = 'none', 5000);
+        }
+
+        function hideAlerts() {
+            document.getElementById('success-alert').style.display = 'none';
+            document.getElementById('error-alert').style.display = 'none';
+        }
+
+        // Auto-focus on CNI input
+        document.getElementById('patient-cni').focus();
+    </script>
+</body>
+</html>

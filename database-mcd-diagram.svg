@@ -1,0 +1,309 @@
+<svg viewBox="0 0 1400 1000" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .table-box { fill: white; stroke: #2563eb; stroke-width: 2; }
+      .table-header { fill: #2563eb; color: white; }
+      .table-title { font-family: Arial, sans-serif; font-weight: bold; font-size: 12px; fill: white; }
+      .field-text { font-family: Arial, sans-serif; font-size: 10px; fill: #374151; }
+      .pk-field { font-weight: bold; fill: #dc2626; }
+      .fk-field { font-weight: bold; fill: #059669; }
+      .relation-line { stroke: #6b7280; stroke-width: 2; fill: none; }
+      .relation-arrow { fill: #6b7280; }
+      .section-title { font-family: Arial, sans-serif; font-weight: bold; font-size: 16px; fill: #1f2937; }
+      .section-bg { fill: #f3f4f6; stroke: #d1d5db; stroke-width: 1; }
+    </style>
+  </defs>
+
+  <!-- TITRE PRINCIPAL -->
+  <text x="700" y="30" text-anchor="middle" class="section-title" style="font-size: 20px;">
+    MediRappel - Modèle Conceptuel de Données (MCD)
+  </text>
+
+  <!-- SECTION GESTION MÉDICALE -->
+  <rect x="20" y="60" width="400" height="280" class="section-bg" />
+  <text x="220" y="80" text-anchor="middle" class="section-title">🏥 Gestion Médicale</text>
+
+  <!-- Table doctors -->
+  <rect x="30" y="100" width="140" height="100" class="table-box" />
+  <rect x="30" y="100" width="140" height="20" class="table-header" />
+  <text x="100" y="115" text-anchor="middle" class="table-title">doctors</text>
+  <text x="35" y="130" class="field-text pk-field">• id (PK)</text>
+  <text x="35" y="145" class="field-text">• name</text>
+  <text x="35" y="160" class="field-text">• specialty</text>
+  <text x="35" y="175" class="field-text">• phone</text>
+  <text x="35" y="190" class="field-text">• email</text>
+
+  <!-- Table medications -->
+  <rect x="250" y="100" width="140" height="120" class="table-box" />
+  <rect x="250" y="100" width="140" height="20" class="table-header" />
+  <text x="320" y="115" text-anchor="middle" class="table-title">medications</text>
+  <text x="255" y="130" class="field-text pk-field">• id (PK)</text>
+  <text x="255" y="145" class="field-text">• name</text>
+  <text x="255" y="160" class="field-text">• dosage</text>
+  <text x="255" y="175" class="field-text">• instructions</text>
+  <text x="255" y="190" class="field-text">• times[]</text>
+  <text x="255" y="205" class="field-text fk-field">• doctor_id (FK)</text>
+
+  <!-- Table medication_history -->
+  <rect x="250" y="240" width="140" height="90" class="table-box" />
+  <rect x="250" y="240" width="140" height="20" class="table-header" />
+  <text x="320" y="255" text-anchor="middle" class="table-title">medication_history</text>
+  <text x="255" y="270" class="field-text pk-field">• id (PK)</text>
+  <text x="255" y="285" class="field-text fk-field">• medication_id (FK)</text>
+  <text x="255" y="300" class="field-text">• status</text>
+  <text x="255" y="315" class="field-text">• scheduled_time</text>
+
+  <!-- Table symptoms -->
+  <rect x="30" y="240" width="140" height="80" class="table-box" />
+  <rect x="30" y="240" width="140" height="20" class="table-header" />
+  <text x="100" y="255" text-anchor="middle" class="table-title">symptoms</text>
+  <text x="35" y="270" class="field-text pk-field">• id (PK)</text>
+  <text x="35" y="285" class="field-text">• name</text>
+  <text x="35" y="300" class="field-text">• severity</text>
+  <text x="35" y="315" class="field-text">• date</text>
+
+  <!-- SECTION PHARMACIES -->
+  <rect x="450" y="60" width="500" height="280" class="section-bg" />
+  <text x="700" y="80" text-anchor="middle" class="section-title">🏪 ERP Pharmacies</text>
+
+  <!-- Table pharmacies -->
+  <rect x="460" y="100" width="140" height="100" class="table-box" />
+  <rect x="460" y="100" width="140" height="20" class="table-header" />
+  <text x="530" y="115" text-anchor="middle" class="table-title">pharmacies</text>
+  <text x="465" y="130" class="field-text pk-field">• id (PK)</text>
+  <text x="465" y="145" class="field-text">• name</text>
+  <text x="465" y="160" class="field-text">• finess_number</text>
+  <text x="465" y="175" class="field-text">• address</text>
+  <text x="465" y="190" class="field-text">• phone</text>
+
+  <!-- Table pharmacy_users -->
+  <rect x="630" y="100" width="140" height="100" class="table-box" />
+  <rect x="630" y="100" width="140" height="20" class="table-header" />
+  <text x="700" y="115" text-anchor="middle" class="table-title">pharmacy_users</text>
+  <text x="635" y="130" class="field-text pk-field">• id (PK)</text>
+  <text x="635" y="145" class="field-text fk-field">• pharmacy_id (FK)</text>
+  <text x="635" y="160" class="field-text">• email</text>
+  <text x="635" y="175" class="field-text">• role</text>
+  <text x="635" y="190" class="field-text">• password</text>
+
+  <!-- Table products -->
+  <rect x="460" y="220" width="140" height="100" class="table-box" />
+  <rect x="460" y="220" width="140" height="20" class="table-header" />
+  <text x="530" y="235" text-anchor="middle" class="table-title">products</text>
+  <text x="465" y="250" class="field-text pk-field">• id (PK)</text>
+  <text x="465" y="265" class="field-text">• name</text>
+  <text x="465" y="280" class="field-text">• cip_code</text>
+  <text x="465" y="295" class="field-text">• public_price</text>
+  <text x="465" y="310" class="field-text">• manufacturer</text>
+
+  <!-- Table pharmacy_inventory -->
+  <rect x="630" y="220" width="140" height="100" class="table-box" />
+  <rect x="630" y="220" width="140" height="20" class="table-header" />
+  <text x="700" y="235" text-anchor="middle" class="table-title">pharmacy_inventory</text>
+  <text x="635" y="250" class="field-text pk-field">• id (PK)</text>
+  <text x="635" y="265" class="field-text fk-field">• pharmacy_id (FK)</text>
+  <text x="635" y="280" class="field-text fk-field">• product_id (FK)</text>
+  <text x="635" y="295" class="field-text">• current_stock</text>
+  <text x="635" y="310" class="field-text">• minimum_stock</text>
+
+  <!-- Table customers -->
+  <rect x="800" y="100" width="140" height="120" class="table-box" />
+  <rect x="800" y="100" width="140" height="20" class="table-header" />
+  <text x="870" y="115" text-anchor="middle" class="table-title">customers</text>
+  <text x="805" y="130" class="field-text pk-field">• id (PK)</text>
+  <text x="805" y="145" class="field-text">• first_name</text>
+  <text x="805" y="160" class="field-text">• last_name</text>
+  <text x="805" y="175" class="field-text">• national_id (CNI)</text>
+  <text x="805" y="190" class="field-text">• phone</text>
+  <text x="805" y="205" class="field-text">• loyalty_level</text>
+
+  <!-- SECTION VENTES ET PRESCRIPTIONS -->
+  <rect x="980" y="60" width="380" height="280" class="section-bg" />
+  <text x="1170" y="80" text-anchor="middle" class="section-title">💰 Ventes & Prescriptions</text>
+
+  <!-- Table sales -->
+  <rect x="990" y="100" width="140" height="120" class="table-box" />
+  <rect x="990" y="100" width="140" height="20" class="table-header" />
+  <text x="1060" y="115" text-anchor="middle" class="table-title">sales</text>
+  <text x="995" y="130" class="field-text pk-field">• id (PK)</text>
+  <text x="995" y="145" class="field-text">• sale_number</text>
+  <text x="995" y="160" class="field-text fk-field">• pharmacy_id (FK)</text>
+  <text x="995" y="175" class="field-text fk-field">• customer_id (FK)</text>
+  <text x="995" y="190" class="field-text fk-field">• cashier_id (FK)</text>
+  <text x="995" y="205" class="field-text">• total_amount</text>
+
+  <!-- Table sale_items -->
+  <rect x="990" y="240" width="140" height="80" class="table-box" />
+  <rect x="990" y="240" width="140" height="20" class="table-header" />
+  <text x="1060" y="255" text-anchor="middle" class="table-title">sale_items</text>
+  <text x="995" y="270" class="field-text pk-field">• id (PK)</text>
+  <text x="995" y="285" class="field-text fk-field">• sale_id (FK)</text>
+  <text x="995" y="300" class="field-text fk-field">• product_id (FK)</text>
+  <text x="995" y="315" class="field-text">• quantity</text>
+
+  <!-- Table prescriptions -->
+  <rect x="1160" y="100" width="140" height="120" class="table-box" />
+  <rect x="1160" y="100" width="140" height="20" class="table-header" />
+  <text x="1230" y="115" text-anchor="middle" class="table-title">prescriptions</text>
+  <text x="1165" y="130" class="field-text pk-field">• id (PK)</text>
+  <text x="1165" y="145" class="field-text">• prescription_number</text>
+  <text x="1165" y="160" class="field-text fk-field">• customer_id (FK)</text>
+  <text x="1165" y="175" class="field-text fk-field">• doctor_id (FK)</text>
+  <text x="1165" y="190" class="field-text">• validity_date</text>
+  <text x="1165" y="205" class="field-text">• status</text>
+
+  <!-- Table prescription_items -->
+  <rect x="1160" y="240" width="140" height="80" class="table-box" />
+  <rect x="1160" y="240" width="140" height="20" class="table-header" />
+  <text x="1230" y="255" text-anchor="middle" class="table-title">prescription_items</text>
+  <text x="1165" y="270" class="field-text pk-field">• id (PK)</text>
+  <text x="1165" y="285" class="field-text fk-field">• prescription_id (FK)</text>
+  <text x="1165" y="300" class="field-text fk-field">• product_id (FK)</text>
+  <text x="1165" y="315" class="field-text">• quantity</text>
+
+  <!-- SECTION GESTION OPÉRATIONS -->
+  <rect x="20" y="370" width="600" height="250" class="section-bg" />
+  <text x="320" y="390" text-anchor="middle" class="section-title">📦 Gestion des Opérations</text>
+
+  <!-- Table suppliers -->
+  <rect x="30" y="410" width="140" height="100" class="table-box" />
+  <rect x="30" y="410" width="140" height="20" class="table-header" />
+  <text x="100" y="425" text-anchor="middle" class="table-title">suppliers</text>
+  <text x="35" y="440" class="field-text pk-field">• id (PK)</text>
+  <text x="35" y="455" class="field-text">• name</text>
+  <text x="35" y="470" class="field-text">• contact_person</text>
+  <text x="35" y="485" class="field-text">• email</text>
+  <text x="35" y="500" class="field-text">• phone</text>
+
+  <!-- Table purchase_orders -->
+  <rect x="200" y="410" width="140" height="120" class="table-box" />
+  <rect x="200" y="410" width="140" height="20" class="table-header" />
+  <text x="270" y="425" text-anchor="middle" class="table-title">purchase_orders</text>
+  <text x="205" y="440" class="field-text pk-field">• id (PK)</text>
+  <text x="205" y="455" class="field-text">• order_number</text>
+  <text x="205" y="470" class="field-text fk-field">• pharmacy_id (FK)</text>
+  <text x="205" y="485" class="field-text fk-field">• supplier_id (FK)</text>
+  <text x="205" y="500" class="field-text">• status</text>
+  <text x="205" y="515" class="field-text">• total_amount</text>
+
+  <!-- Table purchase_order_items -->
+  <rect x="370" y="410" width="140" height="100" class="table-box" />
+  <rect x="370" y="410" width="140" height="20" class="table-header" />
+  <text x="440" y="425" text-anchor="middle" class="table-title">purchase_order_items</text>
+  <text x="375" y="440" class="field-text pk-field">• id (PK)</text>
+  <text x="375" y="455" class="field-text fk-field">• order_id (FK)</text>
+  <text x="375" y="470" class="field-text fk-field">• product_id (FK)</text>
+  <text x="375" y="485" class="field-text">• quantity_ordered</text>
+  <text x="375" y="500" class="field-text">• unit_price</text>
+
+  <!-- Table invoices -->
+  <rect x="200" y="550" width="140" height="100" class="table-box" />
+  <rect x="200" y="550" width="140" height="20" class="table-header" />
+  <text x="270" y="565" text-anchor="middle" class="table-title">invoices</text>
+  <text x="205" y="580" class="field-text pk-field">• id (PK)</text>
+  <text x="205" y="595" class="field-text">• invoice_number</text>
+  <text x="205" y="610" class="field-text fk-field">• pharmacy_id (FK)</text>
+  <text x="205" y="625" class="field-text">• total_amount</text>
+  <text x="205" y="640" class="field-text">• status</text>
+
+  <!-- SECTION ANALYTICS -->
+  <rect x="650" y="370" width="420" height="250" class="section-bg" />
+  <text x="860" y="390" text-anchor="middle" class="section-title">📊 Analytics & Audit</text>
+
+  <!-- Table sales_analytics -->
+  <rect x="670" y="410" width="140" height="100" class="table-box" />
+  <rect x="670" y="410" width="140" height="20" class="table-header" />
+  <text x="740" y="425" text-anchor="middle" class="table-title">sales_analytics</text>
+  <text x="675" y="440" class="field-text pk-field">• id (PK)</text>
+  <text x="675" y="455" class="field-text fk-field">• pharmacy_id (FK)</text>
+  <text x="675" y="470" class="field-text">• date</text>
+  <text x="675" y="485" class="field-text">• daily_sales</text>
+  <text x="675" y="500" class="field-text">• transaction_count</text>
+
+  <!-- Table audit_logs -->
+  <rect x="850" y="410" width="140" height="120" class="table-box" />
+  <rect x="850" y="410" width="140" height="20" class="table-header" />
+  <text x="920" y="425" text-anchor="middle" class="table-title">audit_logs</text>
+  <text x="855" y="440" class="field-text pk-field">• id (PK)</text>
+  <text x="855" y="455" class="field-text fk-field">• pharmacy_id (FK)</text>
+  <text x="855" y="470" class="field-text fk-field">• user_id (FK)</text>
+  <text x="855" y="485" class="field-text">• action</text>
+  <text x="855" y="500" class="field-text">• table_name</text>
+  <text x="855" y="515" class="field-text">• old_values</text>
+
+  <!-- RELATIONS (Principales) -->
+  <!-- doctors → medications -->
+  <line x1="170" y1="150" x2="250" y2="150" class="relation-line"/>
+  <polygon points="245,145 255,150 245,155" class="relation-arrow"/>
+
+  <!-- medications → medication_history -->
+  <line x1="320" y1="220" x2="320" y2="240" class="relation-line"/>
+  <polygon points="315,235 320,245 325,235" class="relation-arrow"/>
+
+  <!-- pharmacies → pharmacy_users -->
+  <line x1="600" y1="150" x2="630" y2="150" class="relation-line"/>
+  <polygon points="625,145 635,150 625,155" class="relation-arrow"/>
+
+  <!-- pharmacies → pharmacy_inventory -->
+  <line x1="530" y1="200" x2="530" y2="220" class="relation-line"/>
+  <line x1="530" y1="220" x2="650" y2="220" class="relation-line"/>
+  <line x1="650" y1="220" x2="650" y2="240" class="relation-line"/>
+  <polygon points="645,235 650,245 655,235" class="relation-arrow"/>
+
+  <!-- products → pharmacy_inventory -->
+  <line x1="600" y1="270" x2="630" y2="270" class="relation-line"/>
+  <polygon points="625,265 635,270 625,275" class="relation-arrow"/>
+
+  <!-- customers → sales -->
+  <line x1="940" y1="150" x2="990" y2="150" class="relation-line"/>
+  <polygon points="985,145 995,150 985,155" class="relation-arrow"/>
+
+  <!-- sales → sale_items -->
+  <line x1="1060" y1="220" x2="1060" y2="240" class="relation-line"/>
+  <polygon points="1055,235 1060,245 1065,235" class="relation-arrow"/>
+
+  <!-- customers → prescriptions -->
+  <line x1="940" y1="160" x2="1160" y2="160" class="relation-line"/>
+  <polygon points="1155,155 1165,160 1155,165" class="relation-arrow"/>
+
+  <!-- prescriptions → prescription_items -->
+  <line x1="1230" y1="220" x2="1230" y2="240" class="relation-line"/>
+  <polygon points="1225,235 1230,245 1235,235" class="relation-arrow"/>
+
+  <!-- suppliers → purchase_orders -->
+  <line x1="170" y1="460" x2="200" y2="460" class="relation-line"/>
+  <polygon points="195,455 205,460 195,465" class="relation-arrow"/>
+
+  <!-- purchase_orders → purchase_order_items -->
+  <line x1="340" y1="460" x2="370" y2="460" class="relation-line"/>
+  <polygon points="365,455 375,460 365,465" class="relation-arrow"/>
+
+  <!-- LÉGENDE -->
+  <rect x="1100" y="650" width="280" height="320" fill="white" stroke="#d1d5db" stroke-width="1"/>
+  <text x="1240" y="675" text-anchor="middle" class="section-title">Légende</text>
+  
+  <rect x="1110" y="690" width="15" height="15" fill="#dc2626"/>
+  <text x="1135" y="702" class="field-text">PK = Clé Primaire</text>
+  
+  <rect x="1110" y="715" width="15" height="15" fill="#059669"/>
+  <text x="1135" y="727" class="field-text">FK = Clé Étrangère</text>
+  
+  <line x1="1110" y1="745" x2="1150" y2="745" class="relation-line"/>
+  <polygon points="1145,740 1155,745 1145,750" class="relation-arrow"/>
+  <text x="1165" y="750" class="field-text">Relation 1:N</text>
+  
+  <text x="1115" y="780" class="field-text">🏥 Gestion Médicale:</text>
+  <text x="1120" y="795" class="field-text">- Médecins et prescriptions</text>
+  <text x="1120" y="810" class="field-text">- Médicaments patients</text>
+  <text x="1120" y="825" class="field-text">- Historique des prises</text>
+  
+  <text x="1115" y="850" class="field-text">🏪 ERP Pharmacies:</text>
+  <text x="1120" y="865" class="field-text">- Gestion multi-pharmacies</text>
+  <text x="1120" y="880" class="field-text">- Inventaire par établissement</text>
+  <text x="1120" y="895" class="field-text">- Utilisateurs et rôles</text>
+  
+  <text x="1115" y="920" class="field-text">💰 Synchronisation CNI:</text>
+  <text x="1120" y="935" class="field-text">- Clients unifiés (national_id)</text>
+  <text x="1120" y="950" class="field-text">- Évite duplication données</text>
+  <text x="1120" y="965" class="field-text">- Historique centralisé</text>
+</svg>

@@ -1,0 +1,62 @@
+name: Build Medi-Rappel Android
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      VITE_API_URL: ${{ vars.MEDI_API_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Build web app
+        run: npm run build:web
+
+      - name: Create Android project
+        run: |
+          if [ ! -d android ]; then npx cap add android; fi
+          npx cap sync android
+
+      - name: Build installable APK and test AAB
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug bundleDebug
+
+      - name: Collect artifacts
+        run: |
+          mkdir -p release
+          cp android/app/build/outputs/apk/debug/app-debug.apk release/Medi-Rappel-debug.apk
+          cp android/app/build/outputs/bundle/debug/app-debug.aab release/Medi-Rappel-debug.aab
+
+      - name: Upload Android artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Medi-Rappel-Android
+          path: release/*
+          if-no-files-found: error

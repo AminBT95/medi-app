@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(142, 76%, 36%);
+  --primary-foreground: hsl(355, 7%, 97%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* Custom colors for MediRappel */
+  --primary-50: hsl(142, 76%, 96%);
+  --primary-500: hsl(142, 76%, 36%);
+  --primary-600: hsl(142, 76%, 31%);
+  --primary-700: hsl(142, 76%, 26%);
+  
+  --secondary-500: hsl(207, 90%, 54%);
+  --secondary-600: hsl(207, 90%, 49%);
+  
+  --accent-500: hsl(36, 100%, 50%);
+  --accent-600: hsl(36, 100%, 45%);
+  
+  /* Senior-friendly font sizes */
+  --font-senior-base: 18px;
+  --font-senior-lg: 20px;
+  --font-senior-xl: 24px;
+  --font-senior-2xl: 28px;
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-size: var(--font-senior-base);
+  }
+  
+  h1 {
+    font-size: var(--font-senior-2xl);
+  }
+  
+  h2 {
+    font-size: var(--font-senior-xl);
+  }
+  
+  h3 {
+    font-size: var(--font-senior-lg);
+  }
+}
+
+@layer utilities {
+  .text-senior-base {
+    font-size: var(--font-senior-base);
+  }
+  
+  .text-senior-lg {
+    font-size: var(--font-senior-lg);
+  }
+  
+  .text-senior-xl {
+    font-size: var(--font-senior-xl);
+  }
+  
+  .text-senior-2xl {
+    font-size: var(--font-senior-2xl);
+  }
+  
+  /* Senior-friendly icons - smaller and simpler */
+  .icon-senior { width: 1.25rem; height: 1.25rem; }
+  .icon-senior-lg { width: 1.5rem; height: 1.5rem; }
+  
+  /* High contrast for better visibility */
+  .senior-contrast { 
+    border: 2px solid;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  /* Calendar specific styles */
+  .calendar-day {
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  
+  .calendar-day.has-medication {
+    background-color: hsl(142, 76%, 90%);
+    color: hsl(142, 76%, 36%);
+  }
+  
+  .calendar-day.has-symptom {
+    background-color: hsl(346, 87%, 90%);
+    color: hsl(346, 87%, 47%);
+  }
+  
+  .bg-primary-50 {
+    background-color: var(--primary-50);
+  }
+  
+  .bg-primary-500 {
+    background-color: var(--primary-500);
+  }
+  
+  .bg-primary-600 {
+    background-color: var(--primary-600);
+  }
+  
+  .bg-primary-700 {
+    background-color: var(--primary-700);
+  }
+  
+  .bg-secondary-500 {
+    background-color: var(--secondary-500);
+  }
+  
+  .bg-secondary-600 {
+    background-color: var(--secondary-600);
+  }
+  
+  .bg-accent-500 {
+    background-color: var(--accent-500);
+  }
+  
+  .bg-accent-600 {
+    background-color: var(--accent-600);
+  }
+  
+  .text-primary-500 {
+    color: var(--primary-500);
+  }
+  
+  .text-primary-600 {
+    color: var(--primary-600);
+  }
+  
+  .text-primary-700 {
+    color: var(--primary-700);
+  }
+  
+  .text-secondary-500 {
+    color: var(--secondary-500);
+  }
+  
+  .text-secondary-600 {
+    color: var(--secondary-600);
+  }
+  
+  .text-accent-500 {
+    color: var(--accent-500);
+  }
+  
+  .text-accent-600 {
+    color: var(--accent-600);
+  }
+  
+  .border-primary-500 {
+    border-color: var(--primary-500);
+  }
+  
+  .border-secondary-500 {
+    border-color: var(--secondary-500);
+  }
+  
+  .border-accent-500 {
+    border-color: var(--accent-500);
+  }
+
+  /* Senior-friendly animations */
+  .hover-scale {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Focus indicators for accessibility */
+  .focus-visible\:ring-4:focus-visible {
+    ring-width: 4px;
+  }
+}
+
+/* PWA specific styles */
+@media (display-mode: standalone) {
+  body {
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+}
+
+/* Hide scrollbar for better mobile experience */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
