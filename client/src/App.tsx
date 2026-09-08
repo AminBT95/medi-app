@@ -12,7 +12,6 @@ import Reports from './pages/Reports';
 import AddSymptom from './pages/AddSymptom';
 import AddDoctor from './pages/AddDoctor';
 import Dashboard from './pages/Dashboard';
-import RoleSelector from './pages/roles/RoleSelector';
 import LegacyPatientHome from './pages/LegacyPatientHome';
 import DoctorPortal from './pages/roles/DoctorPortal';
 import PharmacyPortal from './pages/roles/PharmacyPortal';
@@ -48,7 +47,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={LegacyPatientHome} />
-      <Route path="/roles" component={RoleSelector} />
+      <Route path="/roles">{() => { window.location.href = '/pro'; return null; }}</Route>
 
       {/* /app is the original Replit patient application requested as the mobile home */}
       <Route path="/app" component={LegacyPatientHome} />

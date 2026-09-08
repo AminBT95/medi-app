@@ -82,6 +82,11 @@ app.get("/erp", (req, res) => {
   res.sendFile(path.join(process.cwd(), "client", "erp-medical.html"));
 });
 
+// Compatibility alias: the patient Role button must open the original Pro dashboard
+app.get("/roles", (_req, res) => {
+  res.redirect(302, "/pro");
+});
+
 // Add route for medical Pro interface
 app.get("/pro", (req, res) => {
   res.sendFile(path.join(process.cwd(), "client", "pro.html"));

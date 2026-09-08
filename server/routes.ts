@@ -497,6 +497,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Ancien lien /roles : toujours ouvrir le vrai tableau de bord professionnel /pro
+  app.get("/roles", (_req, res) => res.redirect(302, "/pro"));
+
   // Route pour l'ERP professionnel
   app.get("/pro", async (req, res) => {
     try {

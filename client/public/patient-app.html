@@ -5650,10 +5650,10 @@
 
         function openRoleSelector() {
             if (window.parent && window.parent !== window) {
-                window.parent.postMessage({ type: 'medi:navigate', path: '/roles' }, '*');
+                window.parent.postMessage({ type: 'medi:navigate', path: '/pro' }, '*');
                 return;
             }
-            window.location.href = '/roles';
+            window.location.href = '/pro';
         }
 
         function showPage(pageId) {
